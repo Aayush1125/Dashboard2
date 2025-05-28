@@ -177,6 +177,7 @@ if os.path.exists(csv_path):
     st.pyplot(fig)
 
 # ---------- FORECAST TIMELINE ANIMATION (Fully Fixed) ----------
+'''
 unit_lookup = {
     "Yield": {
         "Oilseeds": "Kg./hectare", "Pulses": "Kg./hectare", "Rice": "Kg./hectare", "Wheat": "Kg./hectare",
@@ -266,7 +267,65 @@ if historical_df is not None and forecast_df is not None:
     )
 
     st.plotly_chart(fig_timeline, use_container_width=True)
-    
+    '''
+
+# Merge historical and prediction timelines
+combined_years = pd.concat([
+    historical_df[['Year']], 
+    predictions_df[['Year']]
+]).drop_duplicates().sort_values('Year')
+
+fig = go.Figure()
+
+# Plot historical values
+fig.add_trace(go.Scatter(
+    x=historical_df['Year'], 
+    y=historical_df['Value'], 
+    mode='lines+markers',
+    name='Historical Data',
+    line=dict(color='blue')
+))
+
+# Plot predictions (assumed to start after historical ends)
+fig.add_trace(go.Scatter(
+    x=predictions_df['Year'], 
+    y=predictions_df['Pred1'], 
+    mode='lines+markers',
+    name='Prediction 1',
+    line=dict(dash='dash', color='green')
+))
+fig.add_trace(go.Scatter(
+    x=predictions_df['Year'], 
+    y=predictions_df['Pred2'], 
+    mode='lines+markers',
+    name='Prediction 2',
+    line=dict(dash='dot', color='orange')
+))
+fig.add_trace(go.Scatter(
+    x=predictions_df['Year'], 
+    y=predictions_df['Pred3'], 
+    mode='lines+markers',
+    name='Prediction 3',
+    line=dict(dash='dashdot', color='red')
+))
+
+# Plot WG values as static dots
+fig.add_trace(go.Scatter(
+    x=wg_df['Year'],
+    y=wg_df['WG_Value'],
+    mode='markers',
+    name='WG Report',
+    marker=dict(size=10, color='black', symbol='circle')
+))
+
+fig.update_layout(
+    title='Historical + Predictions + WG Report',
+    xaxis_title='Year',
+    yaxis_title='Value',
+    hovermode='x unified'
+)
+
+st.plotly_chart(fig)
 # ---------- WORLD MAP ----------
 with st.sidebar:
     st.markdown("### 🌍 World View Map")
