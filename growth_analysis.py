@@ -53,7 +53,7 @@ def plot_logest_growth_from_csv(csv_path, category_name):
     # Plotting
     fig, ax = plt.subplots(figsize=(10, 6))
     bars = ax.bar(decade_growth_rates.keys(), decade_growth_rates.values(), label="Decade-wise Trend Growth Rate")
-    ax.axhline(y=overall, color='red', linestyle='--', label=f'Overall Growth Rate ({overall:.2f}%)')
+    ax.axhline(overall, color='red', linestyle='--', label=f'Overall Growth Rate ({overall:.2f}%)')
 
     for bar in bars:
         yval = bar.get_height()
