@@ -5,7 +5,7 @@ import requests
 file_id = "1IS8Vjv4oHzHoBOIvLwCmeTrlFFt0_WnU"
 
 # Use gdretrieve (Cloudflare worker proxy) to fetch raw HTML
-url = f"https://www.gdretrieve.workers.dev/{file_id}"
+url = f"https://www.gdretrieve.workers.dev/1IS8Vjv4oHzHoBOIvLwCmeTrlFFt0_WnU"
 
 try:
     response = requests.get(url)
